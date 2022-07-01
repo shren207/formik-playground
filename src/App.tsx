@@ -1,45 +1,53 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { Formik, Field, Form, FormikHelpers } from "formik";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+interface Values {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
-export default App
+function App() {
+  return (
+    <div>
+      <h1>Signup</h1>
+      <Formik
+        initialValues={{
+          firstName: "",
+          lastName: "",
+          email: "",
+        }}
+        onSubmit={(
+          values: Values,
+          { setSubmitting }: FormikHelpers<Values>
+        ) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
+          }, 500);
+        }}
+      >
+        <Form>
+          <label htmlFor={"firstName"}>First Name</label>
+          <Field id={"firstName"} name={"firstName"} placeHolder={"hira"} />
+          <br />
+
+          <label htmlFor={"lastName"}>Last Name</label>
+          <Field id={"lastName"} name={"lastName"} placeHolder={"joe"} />
+          <br />
+
+          <label htmlFor={"email"}>Email</label>
+          <Field
+            id={"email"}
+            name={"email"}
+            placeHolder={"hira@naver.com"}
+            type={"email"}
+          />
+
+          <button type={"submit"}>Submit</button>
+        </Form>
+      </Formik>
+    </div>
+  );
+}
+
+export default App;
